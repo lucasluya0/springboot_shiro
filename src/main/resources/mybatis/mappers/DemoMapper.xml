@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiashidai.springboot_shiro_demo.mappers.DemoMapper">
+    <resultMap id="demo" type="com.jiashidai.springboot_shiro_demo.entity.Demo" >
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+    <select id="selectAll" resultMap="demo">
+        select id,name from jiashidai_demo
+    </select>
+</mapper>
