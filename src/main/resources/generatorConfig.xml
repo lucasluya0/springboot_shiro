@@ -13,6 +13,11 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
 
+ <!--       <commentGenerator>
+            <property name="suppressAllComments" value="false"/>
+            &lt;!&ndash;生成的注释包含时间戳&ndash;&gt;
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>-->
         <!-- 数据库链接URL、用户名、密码 （定制修改）-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/jiashidai_springbootshiro?characterEncoding=utf-8"
@@ -61,7 +66,20 @@
         <table tableName="jiashidai_demo" domainObjectName="TestDemo">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-
+        <!--用于测试mybatis 的逆向工程-->
+        <!--<table tableName="jiashidai_quanxian_role_authority" domainObjectName="RoleAuthority" >-->
+        <!--</table>-->
+        <!--<table tableName="jiashidai_quanxian_authority" domainObjectName="Authority">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="jiashidai_quanxian_role" domainObjectName="Role">
+            <generatedKey column="role_id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="jiashidai_quanxian_user" domainObjectName="User">
+            <generatedKey column="user_id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="jiashidai_quanxian_user_role" domainObjectName="UserRole">
+        </table>-->
     </context>
 
 </generatorConfiguration>

@@ -1,4 +1,4 @@
-package com.jiashidai.springboot_shiro_demo.servieces;
+package com.jiashidai.springboot_shiro_demo.services;
 
 import com.jiashidai.springboot_shiro_demo.entity.Demo;
 

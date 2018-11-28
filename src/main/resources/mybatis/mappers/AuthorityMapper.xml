@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiashidai.springboot_shiro_demo.mappers.AuthorityMapper" >
+  <resultMap id="BaseResultMap" type="com.jiashidai.springboot_shiro_demo.entity.Authority" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_type" property="menuType" jdbcType="INTEGER" />
+    <result column="data_url" property="dataUrl" jdbcType="VARCHAR" />
+    <result column="menu_class" property="menuClass" jdbcType="VARCHAR" />
+    <result column="parent_menucode" property="parentMenucode" jdbcType="VARCHAR" />
+    <result column="sequence" property="sequence" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, menu_code, menu_name, menu_type, data_url, menu_class, parent_menucode, sequence, 
+    create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jiashidai.springboot_shiro_demo.entity.AuthorityExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from jiashidai_quanxian_authority
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from jiashidai_quanxian_authority
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from jiashidai_quanxian_authority
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jiashidai.springboot_shiro_demo.entity.AuthorityExample" >
+    delete from jiashidai_quanxian_authority
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jiashidai.springboot_shiro_demo.entity.Authority" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jiashidai_quanxian_authority (menu_code, menu_name, menu_type, 
+      data_url, menu_class, parent_menucode, 
+      sequence, create_time)
+    values (#{menuCode,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, #{menuType,jdbcType=INTEGER}, 
+      #{dataUrl,jdbcType=VARCHAR}, #{menuClass,jdbcType=VARCHAR}, #{parentMenucode,jdbcType=VARCHAR}, 
+      #{sequence,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jiashidai.springboot_shiro_demo.entity.Authority" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jiashidai_quanxian_authority
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuCode != null" >
+        menu_code,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="menuType != null" >
+        menu_type,
+      </if>
+      <if test="dataUrl != null" >
+        data_url,
+      </if>
+      <if test="menuClass != null" >
+        menu_class,
+      </if>
+      <if test="parentMenucode != null" >
+        parent_menucode,
+      </if>
+      <if test="sequence != null" >
+        sequence,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuCode != null" >
+        #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null" >
+        #{menuType,jdbcType=INTEGER},
+      </if>
+      <if test="dataUrl != null" >
+        #{dataUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuClass != null" >
+        #{menuClass,jdbcType=VARCHAR},
+      </if>
+      <if test="parentMenucode != null" >
+        #{parentMenucode,jdbcType=VARCHAR},
+      </if>
+      <if test="sequence != null" >
+        #{sequence,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jiashidai.springboot_shiro_demo.entity.AuthorityExample" resultType="java.lang.Integer" >
+    select count(*) from jiashidai_quanxian_authority
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update jiashidai_quanxian_authority
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.menuCode != null" >
+        menu_code = #{record.menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuName != null" >
+        menu_name = #{record.menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuType != null" >
+        menu_type = #{record.menuType,jdbcType=INTEGER},
+      </if>
+      <if test="record.dataUrl != null" >
+        data_url = #{record.dataUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuClass != null" >
+        menu_class = #{record.menuClass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentMenucode != null" >
+        parent_menucode = #{record.parentMenucode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sequence != null" >
+        sequence = #{record.sequence,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update jiashidai_quanxian_authority
+    set id = #{record.id,jdbcType=BIGINT},
+      menu_code = #{record.menuCode,jdbcType=VARCHAR},
+      menu_name = #{record.menuName,jdbcType=VARCHAR},
+      menu_type = #{record.menuType,jdbcType=INTEGER},
+      data_url = #{record.dataUrl,jdbcType=VARCHAR},
+      menu_class = #{record.menuClass,jdbcType=VARCHAR},
+      parent_menucode = #{record.parentMenucode,jdbcType=VARCHAR},
+      sequence = #{record.sequence,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jiashidai.springboot_shiro_demo.entity.Authority" >
+    update jiashidai_quanxian_authority
+    <set >
+      <if test="menuCode != null" >
+        menu_code = #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null" >
+        menu_type = #{menuType,jdbcType=INTEGER},
+      </if>
+      <if test="dataUrl != null" >
+        data_url = #{dataUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuClass != null" >
+        menu_class = #{menuClass,jdbcType=VARCHAR},
+      </if>
+      <if test="parentMenucode != null" >
+        parent_menucode = #{parentMenucode,jdbcType=VARCHAR},
+      </if>
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jiashidai.springboot_shiro_demo.entity.Authority" >
+    update jiashidai_quanxian_authority
+    set menu_code = #{menuCode,jdbcType=VARCHAR},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_type = #{menuType,jdbcType=INTEGER},
+      data_url = #{dataUrl,jdbcType=VARCHAR},
+      menu_class = #{menuClass,jdbcType=VARCHAR},
+      parent_menucode = #{parentMenucode,jdbcType=VARCHAR},
+      sequence = #{sequence,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
