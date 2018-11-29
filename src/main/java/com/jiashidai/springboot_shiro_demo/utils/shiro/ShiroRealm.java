@@ -1,7 +1,9 @@
-package com.jiashidai.springboot_shiro_demo.utils;
+package com.jiashidai.springboot_shiro_demo.utils.shiro;
 
+import com.jiashidai.springboot_shiro_demo.entity.Authority;
 import com.jiashidai.springboot_shiro_demo.entity.Role;
 import com.jiashidai.springboot_shiro_demo.entity.User;
+import com.jiashidai.springboot_shiro_demo.services.AuthorityService;
 import com.jiashidai.springboot_shiro_demo.services.UserRoleService;
 import com.jiashidai.springboot_shiro_demo.services.UserService;
 import org.apache.shiro.authc.*;
@@ -16,6 +18,8 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthorityService authorityService;
 
     @Autowired
     private UserRoleService userRoleService;
@@ -30,11 +34,11 @@ public class ShiroRealm extends AuthorizingRealm {
         for(Role role:userRoleService.getRoles(user.getUserId())){
             info.addRole(role.getRoleKey());
         }
-//        //赋予权限
-//        for(Permission permission:permissionService.getByUserId(user.getId())){
+        //赋予权限
+        for(Authority authority:authorityService.getByUserId(user.getUserId())){
 //            if(StringUtils.isNotBlank(permission.getPermCode()))
 //            info.addStringPermission(permission.getName());
-//        }
+        }
         return info;
     }
 

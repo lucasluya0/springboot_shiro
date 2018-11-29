@@ -14,12 +14,20 @@ public class DemoController {
     @Autowired
     private DemoService demoService;
 
-    @RequestMapping("/")
+    @RequestMapping("/test")
     String home() {
         List<Demo> demos = demoService.selectAll();
         for (Demo demo : demos){
             System.out.println(demo.getName());
         }
         return "Hello World!";
+    }
+    @RequestMapping("/test2")
+    String home2() {
+        List<Demo> demos = demoService.selectAll();
+        for (Demo demo : demos){
+            System.out.println(demo.getName());
+        }
+        return "Hello World !!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
     }
 }

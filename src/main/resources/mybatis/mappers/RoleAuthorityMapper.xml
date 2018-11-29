@@ -137,4 +137,9 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  <select id="findAllPermission" parameterType="arraylist" resultMap="com.jiashidai.springboot_shiro_demo.mappers.AuthorityMapper.BaseResultMap">
+    select id, menu_code, menu_name, menu_type, data_url, menu_class, parent_menucode, sequence,create_time
+    from jiashidai_quanxian_role_authority,jiashidai_quanxian_authority where 
+
+  </select>
 </mapper>

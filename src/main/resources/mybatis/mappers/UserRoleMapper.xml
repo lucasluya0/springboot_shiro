@@ -143,8 +143,8 @@
     </if>
   </update>
     <select id="getRoles" parameterType="Long" resultMap="com.jiashidai.springboot_shiro_demo.mappers.RoleMapper.BaseResultMap">
-         select role_id, role_key, create_time, description, role_value
+         select jiashidai_quanxian_role.role_id, role_key, create_time, description, role_value
           from  jiashidai_quanxian_role,jiashidai_quanxian_user_role
-          where user_id={#userId}
+          where user_id=#{userId}
     </select>
 </mapper>

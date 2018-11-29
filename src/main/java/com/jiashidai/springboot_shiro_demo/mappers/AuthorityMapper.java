@@ -3,8 +3,11 @@ package com.jiashidai.springboot_shiro_demo.mappers;
 import com.jiashidai.springboot_shiro_demo.entity.Authority;
 import com.jiashidai.springboot_shiro_demo.entity.AuthorityExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface AuthorityMapper {
     int countByExample(AuthorityExample example);
 
@@ -27,4 +30,6 @@ public interface AuthorityMapper {
     int updateByPrimaryKeySelective(Authority record);
 
     int updateByPrimaryKey(Authority record);
+
+    List<Authority> getByUserId(@Param("userId") Long userId);
 }

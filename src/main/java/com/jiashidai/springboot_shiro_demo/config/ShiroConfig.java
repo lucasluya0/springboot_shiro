@@ -1,5 +1,8 @@
 package com.jiashidai.springboot_shiro_demo.config;
-import com.jiashidai.springboot_shiro_demo.utils.ShiroRealm;
+import com.jiashidai.springboot_shiro_demo.utils.shiro.AjaxPermissionsAuthorizationFilter;
+import com.jiashidai.springboot_shiro_demo.utils.shiro.CustomerFilterChainDefinition;
+import com.jiashidai.springboot_shiro_demo.utils.shiro.ShiroRealm;
+import com.jiashidai.springboot_shiro_demo.utils.shiro.UrlPermissionAuthorizationFilter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -7,13 +10,16 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.AbstractShiroFilter;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Configuration
 public class ShiroConfig {
@@ -67,15 +73,44 @@ public class ShiroConfig {
         securityManager.setRememberMeManager(rememberMeManager());
         return securityManager;
     }
-    @Bean
-    public ShiroFilterFactoryBean shiroFilterFactoryBean() {
-        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        shiroFilterFactoryBean.setSecurityManager(securityManager());
-//        shiroFilterFactoryBean.setLoginUrl("/acount/login");
-        shiroFilterFactoryBean.setSuccessUrl("/home");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
-        LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
+
+//    @Bean
+//    public ShiroFilterFactoryBean shiroFilterFactoryBean() throws Exception {
+//        ShiroFilterFactoryBean shiroFilterFactoryBean   = new ShiroFilterFactoryBean();
+//        shiroFilterFactoryBean.setSecurityManager(securityManager());
+//        // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
+//        shiroFilterFactoryBean.setLoginUrl("/login");
+//        Map<String, Filter> filterMap = new LinkedHashMap<>();
+//        filterMap.put("authc", ajaxPermissionsAuthorizationFilter());
+//        shiroFilterFactoryBean.setFilters(filterMap);
+//        //自定义加载权限资源关系
+//        shiroFilterFactoryBean.setFilterChainDefinitionMap(urlPermissionAuthorizationFilter().loadFilterChainDefinitions());
+//        LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+//        filterChainDefinitionMap.put("/css/**", "anon");
+//        filterChainDefinitionMap.put("/acount/login", "anon");
+//        filterChainDefinitionMap.put("/js/**", "anon");
+//        filterChainDefinitionMap.put("/fonts/**", "anon");
+//        filterChainDefinitionMap.put("/img/**", "anon");
+//        filterChainDefinitionMap.put("/druid/**", "anon");
+//        filterChainDefinitionMap.put("/acount/loginout", "logout");
+//        filterChainDefinitionMap.put("/", "anon");
+//        filterChainDefinitionMap.put("/**", "authc");
+//        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+//        return shiroFilterFactoryBean;
+//    }
+//        @Bean
+//        public UrlPermissionAuthorizationFilter urlPermissionAuthorizationFilter() {
+//            return new UrlPermissionAuthorizationFilter();
+//        }
+    @Bean
+    public CustomerFilterChainDefinition customerFilterChainDefinition(ShiroFilterFactoryBean shiroFilterFactoryBean) throws Exception {
+        CustomerFilterChainDefinition customerFilterChainDefinition = new CustomerFilterChainDefinition();
+        customerFilterChainDefinition.setShiroFilter((AbstractShiroFilter) shiroFilterFactoryBean.getObject());
+        Map<String, Filter> filterMap = new LinkedHashMap<>();
+        filterMap.put("authc", ajaxPermissionsAuthorizationFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
+        LinkedHashMap<String,String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/acount/login", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
@@ -83,17 +118,20 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/acount/loginout", "logout");
+        filterChainDefinitionMap.put("/favicon.ico","anon");
         filterChainDefinitionMap.put("/", "anon");
-        filterChainDefinitionMap.put("/**", "user");
 
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-
-        return shiroFilterFactoryBean;
+        customerFilterChainDefinition.setFilterChainDefinitions(filterChainDefinitionMap);
+        return customerFilterChainDefinition;
     }
 
 
 
-
+    @Bean
+    public Filter ajaxPermissionsAuthorizationFilter() {
+        AjaxPermissionsAuthorizationFilter ajaxPermissionsAuthorizationFilter = new AjaxPermissionsAuthorizationFilter();
+        return ajaxPermissionsAuthorizationFilter;
+    }
 
 
     public SimpleCookie rememberMeCookie() {
