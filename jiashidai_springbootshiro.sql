@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80012
 File Encoding         : 65001
 
-Date: 2018-11-27 17:42:23
+Date: 2018-11-29 17:36:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,8 +20,8 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `jiashidai_demo`;
 CREATE TABLE `jiashidai_demo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '姓名',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
@@ -36,22 +36,22 @@ INSERT INTO `jiashidai_demo` VALUES ('2', '刘冲');
 -- ----------------------------
 DROP TABLE IF EXISTS `jiashidai_quanxian_authority`;
 CREATE TABLE `jiashidai_quanxian_authority` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `data_url` varchar(100) NOT NULL COMMENT '连接路径或方法',
-  `menu_class` varchar(50) NOT NULL COMMENT '菜单样式',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键编号自增长',
   `menu_code` varchar(50) NOT NULL COMMENT '菜单编码',
-  `menu_name` varchar(50) NOT NULL COMMENT '菜单名称',
-  `parent_menucode` varchar(50) DEFAULT NULL COMMENT '上级菜单编码',
-  `sequence` bigint(20) DEFAULT '0' COMMENT '排序',
-  `menu_type` varchar(2) DEFAULT '1' COMMENT '菜单类型(1是左导航菜单 2是按钮权限)',
-  `create_time` varchar(30) NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_sys_authority_menu_code` (`menu_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单表';
+  `menu_name` varchar(255) DEFAULT NULL,
+  `menu_type` int(11) DEFAULT NULL COMMENT '菜单类型 1 导航 2 按钮',
+  `data_url` varchar(255) DEFAULT NULL COMMENT '连接路径或方法',
+  `menu_class` varchar(255) DEFAULT NULL COMMENT '菜单样式',
+  `parent_menucode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '上级菜单编码',
+  `sequence` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '排序',
+  `create_time` varchar(30) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='角色菜单表';
 
 -- ----------------------------
 -- Records of jiashidai_quanxian_authority
 -- ----------------------------
+INSERT INTO `jiashidai_quanxian_authority` VALUES ('1', '100', '首页', '1', '/home', null, null, '0', null);
 
 -- ----------------------------
 -- Table structure for jiashidai_quanxian_role
@@ -69,40 +69,25 @@ CREATE TABLE `jiashidai_quanxian_role` (
 -- ----------------------------
 -- Records of jiashidai_quanxian_role
 -- ----------------------------
-INSERT INTO `jiashidai_quanxian_role` VALUES ('1', 'ROLE_USER', null, null, '');
-INSERT INTO `jiashidai_quanxian_role` VALUES ('2', 'ROLE_ADMIN', null, null, '');
+INSERT INTO `jiashidai_quanxian_role` VALUES ('1', 'ROLE_USER', null, null, '用户');
+INSERT INTO `jiashidai_quanxian_role` VALUES ('2', 'ROLE_ADMIN', null, null, '管理员');
 
 -- ----------------------------
 -- Table structure for jiashidai_quanxian_role_authority
 -- ----------------------------
 DROP TABLE IF EXISTS `jiashidai_quanxian_role_authority`;
 CREATE TABLE `jiashidai_quanxian_role_authority` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键编号自增长',
-  `menu_code` varchar(50) NOT NULL COMMENT '菜单编码',
-  `role_key` varchar(40) NOT NULL COMMENT '角色编码',
-  `menu_type` int(11) DEFAULT NULL COMMENT '菜单类型 1 导航 2 按钮',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单表';
-
--- ----------------------------
--- Records of jiashidai_quanxian_role_authority
--- ----------------------------
-
--- ----------------------------
--- Table structure for jiashidai_quanxian_role_permission
--- ----------------------------
-DROP TABLE IF EXISTS `jiashidai_quanxian_role_permission`;
-CREATE TABLE `jiashidai_quanxian_role_permission` (
   `role_id` int(11) NOT NULL COMMENT '角色主键编号',
-  `permissions` varchar(1000) DEFAULT NULL COMMENT '按钮权限',
-  KEY `FK9q28ewrhntqeipl1t04kh1be7` (`role_id`),
+  `authority_id` bigint(20) DEFAULT NULL COMMENT '权限主键编号',
+  KEY `FK9q28ewrhntqeipl1t04kh1be7` (`role_id`) USING BTREE,
   CONSTRAINT `FK9q28ewrhntqeipl1t04kh1be7` FOREIGN KEY (`role_id`) REFERENCES `jiashidai_quanxian_role` (`role_id`),
   CONSTRAINT `fk_sys_role_permission_role_id` FOREIGN KEY (`role_id`) REFERENCES `jiashidai_quanxian_role` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色按钮权限表';
 
 -- ----------------------------
--- Records of jiashidai_quanxian_role_permission
+-- Records of jiashidai_quanxian_role_authority
 -- ----------------------------
+INSERT INTO `jiashidai_quanxian_role_authority` VALUES ('1', '1');
 
 -- ----------------------------
 -- Table structure for jiashidai_quanxian_user
@@ -128,9 +113,9 @@ CREATE TABLE `jiashidai_quanxian_user` (
 -- ----------------------------
 -- Records of jiashidai_quanxian_user
 -- ----------------------------
-INSERT INTO `jiashidai_quanxian_user` VALUES ('2', 'hzw2312', '63cbbfefc6a5f389ea64299134e989a9a378d1293cad8b5623331bf5d0e023a9', null, null, null, 'hzw2312@sina.com', null, null, '2017-01-18 14:39:23', null, null);
-INSERT INTO `jiashidai_quanxian_user` VALUES ('3', 'hzw2312f', '63cbbfefc6a5f389ea64299134e989a9a378d1293cad8b5623331bf5d0e023a9', null, null, null, 'hzw23d12@sina.com', null, null, '2017-01-18 15:25:08', null, null);
-INSERT INTO `jiashidai_quanxian_user` VALUES ('4', 'hhsykx', '63cbbfefc6a5f389ea64299134e989a9a378d1293cad8b5623331bf5d0e023a9', null, null, null, 'hhs2312@sina.com', null, null, '2017-01-18 15:25:47', null, null);
+INSERT INTO `jiashidai_quanxian_user` VALUES ('2', 'hzw2312', 'e3217fe0af348633f645bbd6aa8135e1', null, null, null, 'hzw2312@sina.com', null, null, '2017-01-18 14:39:23', null, 'hhsykx');
+INSERT INTO `jiashidai_quanxian_user` VALUES ('3', 'hzw2312f', 'e3217fe0af348633f645bbd6aa8135e1', null, null, null, 'hzw23d12@sina.com', null, null, '2017-01-18 15:25:08', null, 'hhsykx');
+INSERT INTO `jiashidai_quanxian_user` VALUES ('4', 'hhsykx', 'e3217fe0af348633f645bbd6aa8135e1', null, null, null, 'hhs2312@sina.com', null, null, '2017-01-18 15:25:47', null, 'hhsykx');
 
 -- ----------------------------
 -- Table structure for jiashidai_quanxian_user_role
@@ -153,3 +138,4 @@ CREATE TABLE `jiashidai_quanxian_user_role` (
 INSERT INTO `jiashidai_quanxian_user_role` VALUES ('3', '1');
 INSERT INTO `jiashidai_quanxian_user_role` VALUES ('4', '1');
 INSERT INTO `jiashidai_quanxian_user_role` VALUES ('2', '2');
+INSERT INTO `jiashidai_quanxian_user_role` VALUES ('4', '2');
