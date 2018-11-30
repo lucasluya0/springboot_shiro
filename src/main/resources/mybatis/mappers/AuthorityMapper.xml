@@ -274,6 +274,9 @@
   <select id="getByUserId" parameterType="Long" resultMap="BaseResultMap">
       select
         <include refid="Base_Column_List" />
-      from
+      from jiashidai_quanxian_authority,jiashidai_quanxian_user_role,jiashidai_quanxian_role_authority
+      where jiashidai_quanxian_user_role.user_id=#{userId}
+      and jiashidai_quanxian_user_role.role_id=jiashidai_quanxian_role_authority.role_id
+      AND jiashidai_quanxian_role_authority.authority_id=jiashidai_quanxian_authority.id
   </select>
 </mapper>

@@ -14,7 +14,7 @@ public class DemoController {
     @Autowired
     private DemoService demoService;
 
-    @RequestMapping("/test")
+    @RequestMapping("/home")
     String home() {
         List<Demo> demos = demoService.selectAll();
         for (Demo demo : demos){
@@ -22,7 +22,7 @@ public class DemoController {
         }
         return "Hello World!";
     }
-    @RequestMapping("/test2")
+    @RequestMapping("/help")
     String home2() {
         List<Demo> demos = demoService.selectAll();
         for (Demo demo : demos){

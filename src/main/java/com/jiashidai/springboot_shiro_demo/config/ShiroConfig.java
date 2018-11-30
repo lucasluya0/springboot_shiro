@@ -120,7 +120,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/acount/loginout", "logout");
         filterChainDefinitionMap.put("/favicon.ico","anon");
         filterChainDefinitionMap.put("/", "anon");
-
         customerFilterChainDefinition.setFilterChainDefinitions(filterChainDefinitionMap);
         return customerFilterChainDefinition;
     }
