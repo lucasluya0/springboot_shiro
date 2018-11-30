@@ -18,7 +18,7 @@ public class DemoController {
     String home() {
         List<Demo> demos = demoService.selectAll();
         for (Demo demo : demos){
-            System.out.println(demo.getName());
+//            System.out.println(demo.getName());
         }
         return "Hello World!";
     }
@@ -26,7 +26,7 @@ public class DemoController {
     String home2() {
         List<Demo> demos = demoService.selectAll();
         for (Demo demo : demos){
-            System.out.println(demo.getName());
+//            System.out.println(demo.getName());
         }
         return "Hello World !!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
     }
